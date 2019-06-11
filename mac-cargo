@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# based on https://gist.github.com/luser/a33e5070d1c55a7d2c46fe763a9d1543
+
+set -e
+
+# ensures that the host and target compilers are explicitly set, including using
+# wrappers for clang for the target to pass parameters to clang that help a lot
+# of native code more reliably compile
+export HOST_CC="gcc"
+export HOST_CXX="g++"
+export CC="mac-cc"
+export CXX="mac-c++"
+export CPP="mac-cc -E"
+# these, along with the .cargo/config in mac-cargo, help resolve issues that can
+# arise with assembly and linking
+export AR="/usr/osxcross/bin/x86_64-apple-darwin15-ar"
+export RANLIB="/usr/osxcross/bin/x86_64-apple-darwin15-ranlib"
+export TOOLCHAIN_PREFIX="/usr/osxcross/bin/x86_64-apple-darwin15-"
+
+mkdir -p .cargo
+if [ -f .cargo/config ]
+then
+    mv .cargo/config .cargo/config.bak
+fi
+# Point cargo at the cross-toolchain.
+cat > .cargo/config <<EOF
+[target.x86_64-apple-darwin]
+linker = "/usr/local/bin/mac-cc"
+ar = "/usr/osxcross/bin/x86_64-apple-darwin15-ar"
+EOF
+
+# Build it.
+cmd="${1}"
+shift 1
+cargo "${cmd}" --target=x86_64-apple-darwin "$@"
+if [ -f .cargo/config.bak ]
+then
+    mv .cargo/config.bak .cargo/config
+else
+    rm .cargo/config
+fi
+unset HOST_CC HOST_CXX CC CXX CPP AR RANLIB TOOLCHAIN_PREFIX

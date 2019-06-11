@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# based on https://gist.github.com/luser/a33e5070d1c55a7d2c46fe763a9d1543
+
+set -e
+
+# activate cross compilation
+export PKG_CONFIG_ALLOW_CROSS="1"
+
+mkdir -p .cargo
+if [ -f .cargo/config ]
+then
+    mv .cargo/config .cargo/config.bak
+fi
+# Point cargo at the cross-toolchain.
+cat > .cargo/config <<EOF
+[target.x86_64-pc-windows-gnu]
+linker = "win-cc"
+ar = "x86_64-w64-mingw32-ar"
+EOF
+
+# Build it.
+cmd="${1}"
+shift 1
+cargo "${cmd}" --target=x86_64-pc-windows-gnu "$@"
+if [ -f .cargo/config.bak ]
+then
+    mv .cargo/config.bak .cargo/config
+else
+    rm .cargo/config
+fi

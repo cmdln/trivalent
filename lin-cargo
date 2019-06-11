@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# based on https://gist.github.com/luser/a33e5070d1c55a7d2c46fe763a9d1543
+
+set -e
+
+export OPENSSL_DIR=/usr/local
+export OPENSSL_STATIC="1"
+
+export PATH="/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+cargo "$@"
+
+unset OPENSSL_STATIC
