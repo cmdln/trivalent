@@ -14,9 +14,9 @@ export CXX="mac-c++"
 export CPP="mac-cc -E"
 # these, along with the .cargo/config in mac-cargo, help resolve issues that can
 # arise with assembly and linking
-export AR="/usr/osxcross/bin/x86_64-apple-darwin15-ar"
-export RANLIB="/usr/osxcross/bin/x86_64-apple-darwin15-ranlib"
-export TOOLCHAIN_PREFIX="/usr/osxcross/bin/x86_64-apple-darwin15-"
+export AR="/usr/osxcross/bin/x86_64-apple-darwin17-ar"
+export RANLIB="/usr/osxcross/bin/x86_64-apple-darwin17-ranlib"
+export TOOLCHAIN_PREFIX="/usr/osxcross/bin/x86_64-apple-darwin17-"
 
 mkdir -p .cargo
 if [ -f .cargo/config ]
@@ -27,7 +27,7 @@ fi
 cat > .cargo/config <<EOF
 [target.x86_64-apple-darwin]
 linker = "/usr/local/bin/mac-cc"
-ar = "/usr/osxcross/bin/x86_64-apple-darwin15-ar"
+ar = "/usr/osxcross/bin/x86_64-apple-darwin17-ar"
 EOF
 
 # Build it.
