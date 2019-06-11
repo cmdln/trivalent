@@ -51,13 +51,17 @@ WORKDIR /home/rust
 
 RUN curl https://sh.rustup.rs -sSf -o rustup.sh && \
         sh ./rustup.sh -y && \
-        $HOME/.cargo/bin/rustup default $RUST_VER && \
-        $HOME/.cargo/bin/rustup target add x86_64-pc-windows-gnu && \
-        $HOME/.cargo/bin/rustup target add x86_64-apple-darwin && \
         rm rustup.sh
 
 ENV PATH $PATH:/home/rust/.cargo/bin:/usr/osxcross/bin
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/osxcross/lib
+
+RUN rustup default $RUST_VER
+RUN rustup target add x86_64-pc-windows-gnu
+RUN rustup target add x86_64-apple-darwin
+RUN rustup component add clippy
+RUN cargo install cargo-outdated
+RUN cargo install cargo-audit
 
 RUN cp /usr/x86_64-w64-mingw32/lib/*crt2.o \
         /home/rust/.rustup/toolchains/1.35.0-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-gnu/lib/
