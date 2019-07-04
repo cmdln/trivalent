@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG RUST_VER=1.35.0
+ARG RUST_VER=1.37.0
 
 RUN apt update -y -q \
  && apt upgrade -y -q \
@@ -26,6 +26,7 @@ RUN apt update -y -q \
    sqlite3 \
    libsqlite3-0 \
    libsqlite3-dev
+   libzip-dev
 
 #Build arguments
 ARG osxcross_repo="tpoechtrager/osxcross"
@@ -66,6 +67,7 @@ RUN rustup component add clippy
 RUN cargo install cargo-outdated
 RUN cargo install cargo-audit
 RUN cargo install cargo-web
+RUN cargo install diesel_cli --no-default-features --features sqlite
 
 RUN cp /usr/x86_64-w64-mingw32/lib/*crt2.o \
         /home/rust/.rustup/toolchains/${RUST_VER}-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-gnu/lib/
