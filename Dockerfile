@@ -64,7 +64,7 @@ RUN cargo install cargo-outdated
 RUN cargo install cargo-audit
 
 RUN cp /usr/x86_64-w64-mingw32/lib/*crt2.o \
-        /home/rust/.rustup/toolchains/1.35.0-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-gnu/lib/
+        /home/rust/.rustup/toolchains/${RUST_VER}-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-pc-windows-gnu/lib/
 
 ADD mac-cargo /usr/local/bin/
 ADD mac-c++ /usr/local/bin/
