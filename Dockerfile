@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG RUST_VER=1.37.0
+ARG RUST_VER=1.38.0
 
 RUN apt update -y -q \
  && apt upgrade -y -q \
@@ -25,7 +25,7 @@ RUN apt update -y -q \
    zlib1g-dev \
    sqlite3 \
    libsqlite3-0 \
-   libsqlite3-dev
+   libsqlite3-dev \
    libzip-dev
 
 #Build arguments
