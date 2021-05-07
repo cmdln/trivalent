@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG RUST_VER=1.51.0
+ARG RUST_VER=1.52.0
 
 RUN apt update -y -q \
  && apt upgrade -y -q \
@@ -67,6 +67,7 @@ RUN rustup component add clippy
 RUN cargo install cargo-outdated
 RUN cargo install cargo-audit
 RUN cargo install cargo-web
+RUN cargo install wasm-pack
 RUN cargo install diesel_cli --no-default-features --features sqlite
 
 RUN cp /usr/x86_64-w64-mingw32/lib/*crt2.o \
