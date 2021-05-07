@@ -1,6 +1,6 @@
 FROM debian:buster-slim
 
-ARG RUST_VER=1.50.0
+ARG RUST_VER=1.51.0
 
 RUN apt update -y -q \
  && apt upgrade -y -q \
